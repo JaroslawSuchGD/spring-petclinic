@@ -156,7 +156,6 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/JaroslawSuchGD/spring-petclinic.git</developerConnection>
-    <tag>spring-petaclinic-4.0.0</tag>
   </scm>
 
   <build>
