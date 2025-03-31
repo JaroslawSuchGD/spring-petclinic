@@ -5,7 +5,7 @@ pipeline {
 
     tools {
         maven 'M3'
-        docker 'Docker'
+        dockerTool 'Docker'
     }
 
     environment {
@@ -15,6 +15,7 @@ pipeline {
     stages{
         stage('Cloning Repository') {
             steps {
+                sh 'rm -rf spring-petclinic'
                 sh 'git clone https://github.com/JaroslawSuchGD/spring-petclinic.git'
                 echo 'Cloning petclinic repository ...'
             }
