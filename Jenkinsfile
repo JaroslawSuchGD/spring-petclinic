@@ -5,7 +5,6 @@ pipeline {
 
     tools {
         maven 'M3'
-        dockerTool 'Docker'
     }
 
     environment {
@@ -44,7 +43,6 @@ pipeline {
 
         stage('Docker-image-mr') {
             steps {
-                sh 'systemctl start docker'
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
                 sh 'docker build -t jsuchgd/mr:$GIT_COMMIT . && docker push jsuchgd/mr:$GIT_COMMIT'
                 echo 'Building docker image for mr repository ...'
