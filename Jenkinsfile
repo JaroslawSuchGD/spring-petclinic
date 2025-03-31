@@ -44,7 +44,7 @@ pipeline {
 
         stage('Docker-image-mr') {
             steps {
-                sh 'docker login -u CREDS_USER -p $CREDS_PSW'
+                sh 'docker login -u $CREDS_USER -p $CREDS_PSW'
                 sh 'docker build -t jsuchgd/mr:$GIT_COMMIT . && docker push jsuchgd/mr:$GIT_COMMIT'
                 echo 'Building docker image for mr repository ...'
             }
@@ -52,7 +52,7 @@ pipeline {
 
         stage('Docker-image-main') {
             steps {
-                sh 'docker login -u CREDS_USER -p $CREDS_PSW'
+                sh 'docker login -u $CREDS_USER -p $CREDS_PSW'
                 sh 'docker build -t jsuchgd/main:$GIT_COMMIT . && docker push jsuchgd/main:$GIT_COMMIT'
                 echo 'Building docker image for main repository ...'
             }
