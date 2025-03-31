@@ -44,11 +44,9 @@ pipeline {
 
         stage('Docker-image-mr') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"'
-                    sh 'docker build -t jsuchgd/mr:$GIT_COMMIT . && docker push jsuchgd/mr:$GIT_COMMIT'
-                    echo 'Building docker image for mr repository ...'
-                }
+                sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
+                sh 'docker build -t jsuchgd/mr:$GIT_COMMIT . && docker push jsuchgd/mr:$GIT_COMMIT'
+                echo 'Building docker image for main repository ...'
             }
         }
 
