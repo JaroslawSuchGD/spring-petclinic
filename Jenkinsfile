@@ -1,10 +1,11 @@
 pipeline {
     agent {
-        label "agent1"
+        label 'agent1'
     }
 
     tools {
         maven 'M3'
+        dockerTool 'Docker'
     }
 
     environment {
