@@ -44,9 +44,6 @@ pipeline {
 
         stage('Docker-image-mr') {
             steps {
-                echo "$CREDS_USR"
-                echo "$CREDS_PSW"
-                
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
                 sh 'docker build -t jsuchgd/mr:$GIT_COMMIT . && docker push jsuchgd/mr:$GIT_COMMIT'
                 echo 'Building docker image for mr repository ...'
