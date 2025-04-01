@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Docker-image-main') {
             steps {
-                sh 'ls'
+                sh 'mv *.jar target/'
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
                 sh 'docker build -t jsuchgd/main:$MAJOR_VERSION . && docker push jsuchgd/main:$MAJOR_VERSION'
             }
