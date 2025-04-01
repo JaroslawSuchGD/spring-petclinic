@@ -17,7 +17,9 @@ pipeline {
     stages{
 
         stage('Assigning permissions') {
-            sh 'chown jenkins:jenkins /var/run/docker.sock 
+            steps {
+                sh 'chown jenkins:jenkins /var/run/docker.sock 
+            }
         }
         
         stage('Cloning Repository') {
