@@ -51,7 +51,6 @@ pipeline {
             steps {
                     sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
                     sh 'docker build -t $DOCKER_HUB_REPO_PREFIX:$GIT_SHORT_HASH . && docker push $DOCKER_HUB_REPO_PREFIX:$GIT_SHORT_HASH'
-                    echo 'Building docker image for main repository ...'
             }
         }
 
@@ -59,7 +58,6 @@ pipeline {
             steps {
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
                 sh 'docker build -t jsuchgd/main:1.0 . && docker push jsuchgd/main:1.0'
-                echo 'Building docker image for main repository ...'
             }
         }
     }
