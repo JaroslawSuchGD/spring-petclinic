@@ -1,0 +1,24 @@
+pipeline {
+      agent {
+        label 'agent1'
+    }
+
+    tools {
+        maven 'M3'
+        dockerTool 'Docker'
+    }
+
+    environment {
+        CREDS = credentials('docker-creds')
+        MAJOR_VERSION = '2.0'
+    }
+
+    stages {
+        stage('Docker-image-main') {
+            steps {
+                sh 'docker login -u $CREDS_USER -p $CREDS_PSW'
+                sh 'docker build -t jsuchgd/main:$MAJOR_VERSION . && docker push jsuchgd/main:$MAJOR_VERSION'
+            }
+        }
+    }
+}
