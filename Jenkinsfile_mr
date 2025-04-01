@@ -31,7 +31,7 @@ pipeline {
 
         stage('Checkstyle') {
             steps {
-                sh 'mvn checkstyle:checkstyle > checkstyle-report.txt'
+                sh 'mvn checkstyle:checkstyle'
             }
         }
 
