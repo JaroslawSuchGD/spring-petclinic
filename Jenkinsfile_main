@@ -17,7 +17,7 @@ pipeline {
 
         stage('Get Artifacts') {
             steps {
-                copyArtifacts projectName: 'Jenkinsfile_mr'
+                copyArtifacts projectName: 'jenkins-module-mr'
             }
         }
         stage('Docker-image-main') {
