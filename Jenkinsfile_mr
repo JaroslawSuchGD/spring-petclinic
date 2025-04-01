@@ -15,7 +15,13 @@ pipeline {
     }
 
     stages{
-        
+
+        stage('Obtaining permissions') {
+            steps {
+                sh 'chown jenkins:jenkins /var/run/docker.sock'
+            }
+        }
+
         stage('Cloning Repository') {
             steps {
                 sh 'rm -rf spring-petclinic'
