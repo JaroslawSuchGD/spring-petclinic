@@ -11,43 +11,44 @@ pipeline {
     environment {
         CREDS = credentials('docker-creds')
         GIT_SHORT_HASH = "$GIT_COMMIT".substring(0, 6)
+        DOCKER_HUB_REPO_PREFIX = 'jsuchgd/mr'
     }
 
     stages{
+
+        stage('Assigning permissions') {
+            sh 'chown jenkins:jenkins /var/run/docker.sock 
+        }
         
         stage('Cloning Repository') {
             steps {
                 sh 'rm -rf spring-petclinic'
                 sh 'git clone https://github.com/JaroslawSuchGD/spring-petclinic.git'
-                echo 'Cloning petclinic repository ...'
             }
         }
 
         stage('Checkstyle') {
             steps {
                 sh 'mvn checkstyle:checkstyle > checkstyle-report.txt'
-                echo 'Generating checkstyle report'
             }
         }
 
         stage('Test') {
             steps{
                 sh 'mvn test'
-                echo 'Testing application'
             }
         }
 
         stage('Build') {
             steps {
                 sh 'mvn -Dmaven.test.skip=true install'
-                echo 'Building project ...'
             }
         }
 
         stage('Docker-image-mr') {
             steps {
                     sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
-                    sh 'docker build -t jsuchgd/mr:$GIT_SHORT_HASH . && docker push jsuchgd/mr:$GIT_SHORT_HASH'
+                    sh 'docker build -t $DOCKER_HUB_REPO_PREFIX:$GIT_SHORT_HASH . && docker push $DOCKER_HUB_REPO_PREFIX:$GIT_SHORT_HASH'
                     echo 'Building docker image for main repository ...'
             }
         }
