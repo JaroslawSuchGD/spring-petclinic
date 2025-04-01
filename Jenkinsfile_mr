@@ -49,7 +49,7 @@ pipeline {
 
         stage('Archiving artifacts') {
             steps {
-                archiveArtifacts artifacts: './target'
+                archiveArtifacts artifacts: 'target'
             }
         }
 
