@@ -17,7 +17,7 @@ pipeline {
 
         stage('Get Artifacts') {
             steps {
-                unstash name: 'target'
+                copyArtifacts projectName: 'Jenkinsfile_mr'
             }
         }
         stage('Docker-image-main') {
