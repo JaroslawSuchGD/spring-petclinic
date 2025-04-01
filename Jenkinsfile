@@ -46,11 +46,9 @@ pipeline {
 
         stage('Docker-image-mr') {
             steps {
-                script {
                     sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
                     sh 'docker build -t jsuchgd/mr:${env.GIT_SHORT_HASH} . && docker push jsuchgd/mr:${env.GIT_SHORT_HASH}'
                     echo 'Building docker image for main repository ...'
-                }
             }
         }
 
