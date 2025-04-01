@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Docker-image-main') {
             steps {
-                sh 'cd spring-petclinic'
+                sh 'cd workspace/jenkins-module-main'
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
                 sh 'docker build -t jsuchgd/main:$MAJOR_VERSION . && docker push jsuchgd/main:$MAJOR_VERSION'
             }
