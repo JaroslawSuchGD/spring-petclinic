@@ -10,6 +10,7 @@ pipeline {
 
     environment {
         CREDS = credentials('docker-creds')
+        GIT_LONG_HASH = '$GIT_COMMIT'
     }
 
     stages{
@@ -46,10 +47,9 @@ pipeline {
         stage('Docker-image-mr') {
             steps {
                 script {
-                    def git_hash = $GIT_COMMIT
-                    def short_git_hash = git_hash.substring(0, 6)
+                    def SHORTENED_GIT_HASH = '$GIT_LONG_HASH'.substring(0, 6)
                     sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
-                    sh 'docker build -t jsuchgd/mr:$short_git_hash . && docker push jsuchgd/mr:$short_git_hash'
+                    sh 'docker build -t jsuchgd/mr:$SHORTENED_GIT_HASH . && docker push jsuchgd/mr:$SHORTENED_GIT_HASH'
                     echo 'Building docker image for main repository ...'
                 }
             }
