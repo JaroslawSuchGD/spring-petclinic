@@ -47,9 +47,9 @@ pipeline {
             }
         }
 
-        stage('Stash artifact') {
+        stage('Archiving artifacts') {
             steps {
-                stash name: 'target', includes: 'target/*'
+                archiveArtifacts artifacts: './target'
             }
         }
 
