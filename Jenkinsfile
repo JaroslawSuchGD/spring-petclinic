@@ -46,7 +46,7 @@ pipeline {
         stage('Docker-image-mr') {
             steps {
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
-                sh 'docker build -t jsuchgd/mr:$GIT_COMMIT . && docker push jsuchgd/mr:$GIT_COMMIT'
+                sh 'docker build -t jsuchgd/mr:$GIT_COMMIT_SHORT . && docker push jsuchgd/mr:$GIT_COMMIT_SHORT'
                 echo 'Building docker image for main repository ...'
             }
         }
@@ -54,7 +54,7 @@ pipeline {
         stage('Docker-image-main') {
             steps {
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
-                sh 'docker build -t jsuchgd/main:$GIT_COMMIT . && docker push jsuchgd/main:$GIT_COMMIT'
+                sh 'docker build -t jsuchgd/main:$GIT_COMMIT_SHORT . && docker push jsuchgd/main:$GIT_COMMIT_SHORT'
                 echo 'Building docker image for main repository ...'
             }
         }
