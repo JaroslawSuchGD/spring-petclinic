@@ -45,8 +45,10 @@ pipeline {
 
         stage('Docker-image-mr') {
             steps {
+                def git_hash = $GIT_COMMIT
+                def short_git_hash = git_hash.substring(0, 6)
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
-                sh 'docker build -t jsuchgd/mr:$GIT_COMMIT_SHORT . && docker push jsuchgd/mr:$GIT_COMMIT_SHORT'
+                sh 'docker build -t jsuchgd/mr:$short_git_hash . && docker push jsuchgd/mr:$short_git_hash'
                 echo 'Building docker image for main repository ...'
             }
         }
@@ -54,7 +56,7 @@ pipeline {
         stage('Docker-image-main') {
             steps {
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
-                sh 'docker build -t jsuchgd/main:$GIT_COMMIT_SHORT . && docker push jsuchgd/main:$GIT_COMMIT_SHORT'
+                sh 'docker build -t jsuchgd/main:1.0 . && docker push jsuchgd/main:1.0'
                 echo 'Building docker image for main repository ...'
             }
         }
