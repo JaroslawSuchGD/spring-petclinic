@@ -18,7 +18,7 @@ pipeline {
 
         stage('Assigning permissions') {
             steps {
-                sh 'chown jenkins:jenkins /var/run/docker.sock 
+                sh 'chown jenkins:jenkins /var/run/docker.sock' 
             }
         }
         
