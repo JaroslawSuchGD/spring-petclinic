@@ -47,6 +47,12 @@ pipeline {
             }
         }
 
+        stage('Stash artifact') {
+            steps {
+                stash name: 'artifacts_stash', includes: 'target/*'
+            }
+        }
+
         stage('Docker-image-mr') {
             steps {
                     sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
