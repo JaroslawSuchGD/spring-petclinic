@@ -13,12 +13,6 @@ pipeline {
     }
 
     stages{
-        stage('Updating and installing packages') {
-            steps {
-                sh 'apt -y update'
-                sh 'curl -sSL "https://get.docker.com/" | sh'
-            }
-        }
         
         stage('Cloning Repository') {
             steps {
