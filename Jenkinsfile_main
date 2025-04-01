@@ -24,7 +24,7 @@ pipeline {
         stage('Docker-image-main') {
             steps {
                 sh 'docker login -u $CREDS_USR -p $CREDS_PSW'
-                sh 'docker build -t $DOCKER_HUB_REPO:$MAJOR_VERSION . && docker push $DOCKER_HUB_REPO:$MAJOR_VERSION'
+                sh 'docker build -t $DOCKER_HUB_REPO_PREFIX:$MAJOR_VERSION . && docker push $DOCKER_HUB_REPO_PREFIX:$MAJOR_VERSION'
             }
         }
     }
