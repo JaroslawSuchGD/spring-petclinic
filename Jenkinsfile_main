@@ -15,7 +15,7 @@ pipeline {
 
     stages {
 
-        stage('Get Artifacts) {
+        stage('Get Artifacts') {
             steps {
                 unstash name: 'target'
             }
