@@ -11,7 +11,7 @@ pipeline {
     environment {
         CREDS = credentials('docker-creds')
         GIT_SHORT_HASH = "$GIT_COMMIT".substring(0, 6)
-        DOCKER_HUB_REPO_PREFIX = 'jsuchgd/mr'
+        DOCKER_HUB_REPO_PREFIX = 'jsuchgd/mr' 
     }
 
     stages{
