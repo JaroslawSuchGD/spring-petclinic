@@ -49,7 +49,7 @@ pipeline {
 
         stage('Stash artifact') {
             steps {
-                stash name: 'artifacts_stash', includes: 'target/*'
+                stash name: 'target', includes: 'target/*'
             }
         }
 
