@@ -9,9 +9,8 @@ pipeline {
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-creds')
         GIT_SHORT_HASH = "$GIT_COMMIT".substring(0, 6)
-        IMAGE_PREFIX = ''
-        REGION = params.REGION
-        PROJECT_ID = params.PROJECT_ID
+        REGION = 'params.REGION'
+        PROJECT_ID = 'params.PROJECT_ID'
     }
 
     stages {
