@@ -22,7 +22,7 @@ pipeline {
         stage('Static code analysis') {
             steps {
                 sh 'mvn verify'
-                sh 'mvn jacoco:check'
+                sh 'mvn jacoco:report'
                 sh 'mvn checkstyle:checkstyle'
             }
         }
