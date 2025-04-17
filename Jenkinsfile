@@ -41,7 +41,7 @@ pipeline {
         stage('Pushing artifact to artifact registry') {
             steps {
                 sh "gcloud auth configure-docker ${params.REGION}-docker.pkg.dev"
-                sh "docker push ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/petclinic-app:$GIT_SHORT_HASH"
+                sh "sudo docker push ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/petclinic-app:$GIT_SHORT_HASH"
             }
         }
     }
