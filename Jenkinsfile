@@ -9,8 +9,6 @@ pipeline {
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-creds')
         GIT_SHORT_HASH = "$GIT_COMMIT".substring(0, 6)
-        REGION = "params.REGION"
-        PROJECT_ID = "params.PROJECT_ID"
     }
 
     stages {
@@ -43,8 +41,8 @@ pipeline {
         }
         stage('Pushing artifact to artifact registry') {
             steps {
-                sh 'gcloud auth configure-docker $REGION-docker.pkg.dev'
-                sh 'docker push $REGION-docker.pkg.dev/$PROJECT_ID/petclinic-app:$GIT_SHORT_HASH'
+                sh "gcloud auth configure-docker ${params.REGION}-docker.pkg.dev"
+                sh "docker push ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/petclinic-app:$GIT_SHORT_HASH"
             }
         }
     }
