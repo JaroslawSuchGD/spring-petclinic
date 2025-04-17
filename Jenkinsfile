@@ -1,8 +1,9 @@
 pipeline {
     agent any
     
-    tool name: 'M3', type: 'maven'
-    tool name: 'Docker', type: 'dockerTool'
+    tools {
+        maven 'M3'
+    }
 
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-creds')
