@@ -36,6 +36,8 @@ pipeline {
         }
         stage('Creating artifact') {
             steps {
+                sh 'sudo systemctl start docker'
+                sh 'sudo usermod -aG docker jenkins'
                 sh 'docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/petclinic-app:$GIT_SHORT_HASH .'
             }
         }
