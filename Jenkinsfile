@@ -35,13 +35,13 @@ pipeline {
         }
         stage('Creating artifact') {
             steps {
-                sh 'docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/spring-petclinic-registry:$GIT_SHORT_HASH .'
+                sh 'docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/spring-petclinic-registry/petclinic-app:$GIT_SHORT_HASH .'
             }
         }
         stage('Pushing artifact to artifact registry') {
             steps {
                 sh "gcloud auth configure-docker ${params.REGION}-docker.pkg.dev"
-                sh "docker push ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry:$GIT_SHORT_HASH"
+                sh "docker push ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:$GIT_SHORT_HASH"
             }
         }
     }
