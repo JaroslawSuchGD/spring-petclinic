@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+    stages {
+        stage('Cloning petclinic repository') {
+            steps {
+                git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/JaroslawSuchGD/spring-petclinic.git'
+            }
+        }
+        stage('Creating a git tag') {
+            steps {
+                script {
+                    def oldVersion = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
+                    env.OLD_VERSION = oldVersion
+
+                    sh 'python3 -m venv venv'
+                    sh 'source "venv/bin/activate"'
+                    sh 'pip install semver'
+                    sh 'pip install gitPython'
+
+                    sh 'python3 gitTag.py'
+                }
+            }
+        }
+        stage('Building artifact') {
+            steps {
+                def version = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
+                env.VERSION = version
+                sh 'mvn -Dmaven.test.skip=true install'
+                sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
+            }
+        }
+        stage('Pushing artifact') {
+            steps {
+                sh "gcloud auth configure-docker ${params.REGION}-docker.pkg.dev"
+                sh "docker push ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
+            }
+        }
+
+        stage('Deployment') {
+            steps {
+                input (
+                    message: 'Proceed with deployment?',
+                    ok: 'Approve deployment'
+                    cancel: 'Abort deployment'
+                )
+
+                script {
+                    def COMMAND = """
+                        #!/bin/bash
+                        CONTAINER_ID=docker ps --filter ancestor=petclinic-app:${env.OLD_VERSION} --format='{{.ID}}'
+                        if [[ -n $CONTAINER_ID ]]; then
+                            docker stop $CONTAINER_ID && docker rm $CONTAINER_ID
+                            docker rmi petclinic-app:${env.OLD_VERSION}
+                        fi
+                            gcloud auth configure-docker ${params.REGION}-docker.pkg.dev
+                            docker push ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}
+
+                            docker network create -d bridge petclinic-network
+                            docker run --name petclinic-server -p 80:8080 -e POSTGRES_URL="jdbc:postgresql://${params.DB_IP}:5432/petclinic" -d --network petclinic-network "${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
+                    """
+
+                    sh "gcloud compute ssh --zone=us-central1-a petclinic-instance --command='$COMMAND'"
+                }
+            }
+        }
+    }
+}
