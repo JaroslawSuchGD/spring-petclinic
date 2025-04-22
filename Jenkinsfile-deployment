@@ -23,10 +23,12 @@ pipeline {
         }
         stage('Building artifact') {
             steps {
-                def version = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
-                env.VERSION = version
-                sh 'mvn -Dmaven.test.skip=true install'
-                sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
+                script {
+                    def version = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
+                    env.VERSION = version
+                    sh 'mvn -Dmaven.test.skip=true install'
+                    sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
+                }
             }
         }
         stage('Pushing artifact') {
