@@ -14,9 +14,9 @@ pipeline {
 
                     sh 'python3 -m venv venv'
                     sh '. /var/lib/jenkins/workspace/Deployment/venv/bin/activate'
+                    echo "$PATH"
                     sh 'pip install semver'
                     sh 'pip install gitPython'
-                    echo "$PATH"
 
                     sh 'python3 gitTag.py'
                 }
