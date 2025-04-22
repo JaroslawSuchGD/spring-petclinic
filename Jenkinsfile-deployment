@@ -23,6 +23,8 @@ pipeline {
                     sh 'pip install gitPython'
 
                     sh 'python3 gitTag.py'
+
+                    sh 'deactivate'
                 }
             }
         }
