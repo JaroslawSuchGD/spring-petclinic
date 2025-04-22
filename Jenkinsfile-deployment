@@ -41,7 +41,6 @@ pipeline {
                 input (
                     message: 'Proceed with deployment?',
                     ok: 'Approve deployment'
-                    cancel: 'Abort deployment'
                 )
 
                 script {
