@@ -23,8 +23,6 @@ pipeline {
                     sh 'pip install gitPython'
 
                     sh 'python3 gitTag.py'
-
-                    sh 'deactivate'
                 }
             }
         }
@@ -33,7 +31,7 @@ pipeline {
                 script {
                     def version = sh(script: 'git tag | head -n 1', returnStdout: true).trim()
                     env.VERSION = version
-                    sh 'mvn -Dmaven.test.skip=true install'
+                    sh 'mvn clean package'
                     sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
                 }
             }
