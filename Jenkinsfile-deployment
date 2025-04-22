@@ -14,7 +14,7 @@ pipeline {
 
                     sh 'python3 -m venv venv'
                     sh '. /var/lib/jenkins/workspace/Deployment/venv/bin/activate'
-                    sh 'python -m ensurepip --upgrade'
+                    sh 'python3 -m ensurepip --upgrade'
                     sh 'pip install --upgrade pip'
                     sh 'pip install semver'
                     sh 'pip install gitPython'
