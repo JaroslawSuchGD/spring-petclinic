@@ -13,7 +13,7 @@ pipeline {
                     env.OLD_VERSION = oldVersion
 
                     sh 'python3 -m venv venv'
-                    sh 'source "/var/lib/jenkins/workspace/Deployment/venv/bin/activate"'
+                    sh '. "/venv/bin/activate"'
                     sh 'pip install semver'
                     sh 'pip install gitPython'
 
