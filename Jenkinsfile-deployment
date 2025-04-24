@@ -57,11 +57,13 @@ pipeline {
                         #!/bin/bash
                         CONTAINER_ID=\$(docker ps --filter ancestor=petclinic-app:${env.OLD_VERSION} --format='{{.ID}}')
                         NETWORK=\$(docker ls | grep 'petclinic-network')
-                        if [[ -n \$CONTAINER_ID ]]; then
-                            docker stop \$CONTAINER_ID && docker rm \$CONTAINER_ID
-                            docker rmi petclinic-app:${env.OLD_VERSION}
+                        if [[ -n \${CONTAINER_ID} ]]; then
+                            echo \${CONTAINER_ID}
+                            docker stop \${CONTAINER_ID} && docker rm \${CONTAINER_ID}
+                            docker rmi ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}
+                        
                         fi
-                        if [[ -z \$NETWORK ]]; then
+                        if [[ -z \${NETWORK} ]]; then
                             docker network create -d bridge petclinic-network
                         fi
                             gcloud auth configure-docker ${params.REGION}-docker.pkg.dev
