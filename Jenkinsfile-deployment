@@ -55,8 +55,8 @@ pipeline {
                 script {
                     def COMMAND = """
                         #!/bin/bash
-                        CONTAINER_ID=docker ps --filter ancestor=petclinic-app:${env.OLD_VERSION} --format='{{.ID}}'
-                        NETWORK=docker ls | grep 'petclinic-network'
+                        CONTAINER_ID=$(docker ps --filter ancestor=petclinic-app:${env.OLD_VERSION} --format='{{.ID}}')
+                        NETWORK=$(docker ls | grep 'petclinic-network')
                         if [[ -n \$CONTAINER_ID ]]; then
                             docker stop \$CONTAINER_ID && docker rm \$CONTAINER_ID
                             docker rmi petclinic-app:${env.OLD_VERSION}
