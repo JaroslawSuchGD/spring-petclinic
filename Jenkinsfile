@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Creating artifact') {
             steps {
-                sh "sudo docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:$GIT_SHORT_HASH ."
+                sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:$GIT_SHORT_HASH ."
             }
         }
         stage('Pushing artifact to artifact registry') {
