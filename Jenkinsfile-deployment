@@ -56,9 +56,10 @@ pipeline {
                     def COMMAND = """
                         #!/bin/bash
                         CONTAINER_ID=\$(docker ps --filter ancestor=petclinic-app:${env.OLD_VERSION} --format='{{.ID}}')
-                        NETWORK=\$(docker ls | grep 'petclinic-network')
+                        NETWORK=\$(docker network ls | grep 'petclinic-network')
+                        echo "\${CONTAINER_ID}"
+                        echo "\$CONTAINER_ID"
                         if [[ -n \${CONTAINER_ID} ]]; then
-                            echo \${CONTAINER_ID}
                             docker stop \${CONTAINER_ID} && docker rm \${CONTAINER_ID}
                             docker rmi ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}
                         
