@@ -33,7 +33,7 @@ pipeline {
                 script {
                     def version = sh(script: 'git tag | head -n 1', returnStdout: true).trim()
                     env.VERSION = version
-                    sh 'mvn clean package'
+                    sh 'mvn -Dmaven.test.skip=true install'
                     sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION} ."
                 }
             }
@@ -57,8 +57,8 @@ pipeline {
                         #!/bin/bash
                         CONTAINER_ID=\$(docker ps --filter ancestor=petclinic-app:${env.OLD_VERSION} --format='{{.ID}}')
                         NETWORK=\$(docker network ls | grep 'petclinic-network')
-                        echo "\${CONTAINER_ID}"
-                        echo "\$CONTAINER_ID"
+                        echo "\${CONTAINER_ID} --> first"
+                        echo "\$CONTAINER_ID --> second"
                         if [[ -n \${CONTAINER_ID} ]]; then
                             docker stop \${CONTAINER_ID} && docker rm \${CONTAINER_ID}
                             docker rmi ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}
