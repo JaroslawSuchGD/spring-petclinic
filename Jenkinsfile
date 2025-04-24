@@ -19,14 +19,14 @@ pipeline {
         }
         stage('Static code analysis') {
             steps {
-                sh 'mvn verify'
                 sh 'mvn jacoco:report'
                 sh 'mvn checkstyle:checkstyle'
             }
         }
         stage('Tests') {
             steps {
-                sh 'mvn test'
+                //sh 'mvn test'
+                sh 'mvn verify'
             }
         }
         stage('Build') {
@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Creating artifact') {
             steps {
-                sh 'docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/spring-petclinic-registry/petclinic-app:$GIT_SHORT_HASH .'
+                sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:$GIT_SHORT_HASH"
             }
         }
         stage('Pushing artifact to artifact registry') {
