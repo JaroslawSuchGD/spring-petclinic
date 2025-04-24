@@ -56,8 +56,8 @@ pipeline {
                     def COMMAND = """
                         #!/bin/bash
                         CONTAINER_ID=docker ps --filter ancestor=petclinic-app:${env.OLD_VERSION} --format='{{.ID}}'
-                        if [[ -n $CONTAINER_ID ]]; then
-                            docker stop $CONTAINER_ID && docker rm $CONTAINER_ID
+                        if [[ -n \$CONTAINER_ID ]]; then
+                            docker stop \$CONTAINER_ID && docker rm \$CONTAINER_ID
                             docker rmi petclinic-app:${env.OLD_VERSION}
                         fi
                             gcloud auth configure-docker ${params.REGION}-docker.pkg.dev
