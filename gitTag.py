@@ -24,8 +24,6 @@ if __name__ == "__main__":
     version = None
     if not latest:
         add_tag(tag_name='1.0.0')
-        repo = Repo('.')
-        repo.remote(name='origin').push(f"refs/tags/1.0.0")
     else:
         version = semver.Version.parse(latest).bump_minor()
         new_tag = f"{version.major}.{version.minor}.{version.patch}"
@@ -37,5 +35,3 @@ if __name__ == "__main__":
             new_tag += f"+{version.build}"
 
         add_tag(tag_name = new_tag)
-        repo = Repo('.')
-        repo.remote(name='origin').push(f"{new_tag}")
