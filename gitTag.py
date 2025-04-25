@@ -4,7 +4,7 @@ from git import Repo
 def get_latest_tag_short_gitpython(repo_path='.'):
     try:
         repo = Repo(repo_path)
-        tags = sorted(repo.tags, key=lambda t: t.commit.committed_date)
+        tags = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)
         print(tags)
         return tags[-1].name if tags else None
     except Exception as e:
