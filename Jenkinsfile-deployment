@@ -75,7 +75,7 @@ pipeline {
                 }
 
                 trigger job: 'Infrastructure', parameters: [
-                    string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-'))
+                    string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')),
                     booleanParam(name: 'Update', value: true)
                 ]
             }
