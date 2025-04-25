@@ -5,7 +5,6 @@ def get_latest_tag_short_gitpython(repo_path='.'):
     try:
         repo = Repo(repo_path)
         tags = sorted([tag.name for tag in repo.tags], key=semver.VersionInfo.parse)
-        print(tags)
         return tags[-1] if tags else None
     except Exception as e:
         print(f"Error: {e}")
@@ -25,7 +24,6 @@ if __name__ == "__main__":
     if not latest:
         add_tag(tag_name='1.0.0')
     else:
-        print(f"ACTUAL VERSION --> {latest}")
         version = semver.Version.parse(latest).bump_minor()
         new_tag = f"{version.major}.{version.minor}.{version.patch}"
 
