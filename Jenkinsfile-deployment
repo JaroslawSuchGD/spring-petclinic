@@ -14,7 +14,7 @@ pipeline {
         stage('Creating a git tag') {
             steps {
                 script {
-                    def oldVersion = sh(script: 'git tag | sort -V | tail -n 1', returnStdout: true).trim()
+                    def oldVersion = sh(script: 'git tag -l | sort -V | tail -n 1', returnStdout: true).trim()
                     env.OLD_VERSION = oldVersion
                     echo "$oldVersion --> old Version"
 
@@ -34,7 +34,7 @@ pipeline {
         stage('Building artifact') {
             steps {
                 script {
-                    def version = sh(script: 'git tag | sort -V | tail -n 1', returnStdout: true).trim()
+                    def version = sh(script: 'git tag -l | sort -V | tail -n 1', returnStdout: true).trim()
                     env.VERSION = version
                     // sh "git push origin ${env.VERSION}"
                     echo "$version --> new version"
