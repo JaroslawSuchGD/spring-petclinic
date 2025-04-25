@@ -5,6 +5,8 @@ def get_latest_tag_short_gitpython(repo_path='.'):
     try:
         repo = Repo(repo_path)
         tags = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)
+        print (tags[-1].commit)
+        print (tags[0].commit)
         return tags[-1].name if tags else None
     except Exception as e:
         print(f"Error: {e}")
