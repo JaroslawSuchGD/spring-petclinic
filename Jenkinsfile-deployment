@@ -78,11 +78,11 @@ pipeline {
 
                     sh "gcloud compute ssh --zone=us-central1-a petclinic-instance --command='$COMMAND'"
 
-                    build job: 'Infrastructure',
-                        parameters [
-                            string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')),
-                            booleanParam(name: 'Update', value: true)
-                        ]
+                    // build job: 'Infrastructure',
+                    //     parameters [
+                    //         string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')),
+                    //         booleanParam(name: 'Update', value: true)
+                    //     ]
                 }
 
                 // trigger job: 'Infrastructure', parameters: [
