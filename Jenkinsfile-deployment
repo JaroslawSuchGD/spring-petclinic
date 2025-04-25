@@ -24,6 +24,8 @@ pipeline {
 
                     sh 'python3 gitTag.py'
 
+                    sh 'git tag'
+
                     sh 'rm -rf venv'
                 }
             }
