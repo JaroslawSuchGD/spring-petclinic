@@ -38,4 +38,4 @@ if __name__ == "__main__":
 
         add_tag(tag_name = new_tag)
         repo = Repo('.')
-        repo.remote(name='origin').push(f"refs/tags/{new_tag}")
+        repo.remote(name='origin').push(f".git/refs/tags/{new_tag}")
