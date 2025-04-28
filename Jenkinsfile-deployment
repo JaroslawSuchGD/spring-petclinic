@@ -71,8 +71,6 @@ pipeline {
                         fi
                             gcloud auth configure-docker ${params.REGION}-docker.pkg.dev
                             docker pull ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}
-
-                            #docker run --name petclinic-server -p 80:8080 -e POSTGRES_URL="jdbc:postgresql://${params.DB_IP}:5432/petclinic" -d --network petclinic-network "${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
                     """
 
                     sh "gcloud compute ssh --zone=us-central1-a petclinic-instance --command='$COMMAND'"
@@ -84,6 +82,7 @@ pipeline {
                 //     string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')),
                 //     booleanParam(name: 'Update', value: true)
                 // ]
+                // docker run --name petclinic-server -p 80:8080 -e POSTGRES_URL="jdbc:postgresql://${params.DB_IP}:5432/petclinic" -d --network petclinic-network "${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
             }
         }
     }
