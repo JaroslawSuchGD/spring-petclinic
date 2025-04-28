@@ -82,7 +82,7 @@ pipeline {
                     copyArtifacts(
                         projectName: upstreamJobName,
                         selector: lastSuccessful(),
-                        includes: 'lb_ip.txt',
+                        filter: 'lb_ip.txt',
                         target: '.' // Copy the artifact to the current workspace root
                     )
 
