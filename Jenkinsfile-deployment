@@ -77,10 +77,23 @@ pipeline {
 
                     build job: 'Infrastructure', parameters: [booleanParam(name: 'Destroy', value: false), string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')), booleanParam(name: 'Update', value: true)]
 
-                    def loadBalancerIP = env.LB_IP
-                    def url = "🚀 Deployed to <a href='http://${loadBalancerIP}'>http://${loadBalancerIP}</a>"
-                    //Jenkins.instance.getItem("DeployProject").setDescription(url)
-                    currentBuild.setDescription(url)
+
+                    def upstreamJobName = 'Infrastructure' // Replace with the actual name
+                    def lastSuccessfulBuild = Jenkins.instance.getItem(upstreamJobName)?.lastSuccessfulBuild
+
+                    if (lastSuccessfulBuild) {
+                        // Unarchive the artifact from the last successful build
+                        unarchive(archive: 'lb_ip.txt', from: lastSuccessfulBuild)
+                        def loadBalancerIP = readFile 'lb_ip.txt'
+                        env.LOAD_BALANCER_IP = loadBalancerIP.trim()
+
+                        def url = "🚀 Deployed to <a href='http://${loadBalancerIP}'>http://${loadBalancerIP}</a>"
+                        //Jenkins.instance.getItem("DeployProject").setDescription(url)
+                        currentBuild.setDescription(url)
+                        // Now you can use env.LOAD_BALANCER_IP
+                    } else {
+                        error "Could not find a successful build of '${upstreamJobName}' to retrieve the artifact from."
+                    }
 
                 }
 
