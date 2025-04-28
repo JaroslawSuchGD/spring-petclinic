@@ -81,7 +81,7 @@ pipeline {
                     def upstreamJobName = 'Infrastructure' // Replace with the actual name
                     copyArtifacts(
                         projectName: upstreamJobName,
-                        selector: 'lastSuccessful',
+                        selector: lastSuccessful(),
                         artifacts: 'lb_ip.txt',
                         target: '.' // Copy the artifact to the current workspace root
                     )
