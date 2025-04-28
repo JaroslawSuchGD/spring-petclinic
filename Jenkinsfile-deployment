@@ -78,7 +78,7 @@ pipeline {
                     build job: 'Infrastructure', parameters: [booleanParam(name: 'Destroy', value: false), string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')), booleanParam(name: 'Update', value: true)]
 
                     def loadBalancerIP = env.LB_IP
-                    def url = "🚀 Deployed to <a href='http://${loadBalancerIp}'>http://${loadBalancerIp}</a>"
+                    def url = "🚀 Deployed to <a href='http://${loadBalancerIP}'>http://${loadBalancerIP}</a>"
                     Jenkins.instance.getItem("DeployProject").setDescription(url)
 
                 }
