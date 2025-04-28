@@ -79,21 +79,18 @@ pipeline {
 
 
                     def upstreamJobName = 'Infrastructure' // Replace with the actual name
-                    def lastSuccessfulBuild = Jenkins.instance.getItem(upstreamJobName)?.lastSuccessfulBuild
+                    copyArtifacts(
+                        projectName: upstreamJobName,
+                        selector: 'lastSuccessful',
+                        artifacts: 'lb_ip.txt',
+                        target: '.' // Copy the artifact to the current workspace root
+                    )
 
-                    if (lastSuccessfulBuild) {
-                        // Unarchive the artifact from the last successful build
-                        unarchive(archive: 'lb_ip.txt', from: lastSuccessfulBuild)
-                        def loadBalancerIP = readFile 'lb_ip.txt'
-                        env.LOAD_BALANCER_IP = loadBalancerIP.trim()
+                    def loadBalancerIP = readFile file: 'lb_ip.txt'
+                    env.LB_IP = loadBalancerIP.trim()
 
-                        def url = "🚀 Deployed to <a href='http://${loadBalancerIP}'>http://${loadBalancerIP}</a>"
-                        //Jenkins.instance.getItem("DeployProject").setDescription(url)
-                        currentBuild.setDescription(url)
-                        // Now you can use env.LOAD_BALANCER_IP
-                    } else {
-                        error "Could not find a successful build of '${upstreamJobName}' to retrieve the artifact from."
-                    }
+                    def url = "🚀 Deployed to <a href='http://${env.LB_IP}'>http://${env.LB_IP}</a>"
+                    currentBuild.setDescription(url)
 
                 }
 
