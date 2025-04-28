@@ -76,6 +76,11 @@ pipeline {
                     sh "gcloud compute ssh --zone=us-central1-a petclinic-instance --command='$COMMAND'"
 
                     build job: 'Infrastructure', parameters: [booleanParam(name: 'Destroy', value: false), string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')), booleanParam(name: 'Update', value: true)]
+
+                    def loadBlaancerIp = env.LB_IP
+                    def url = "🚀 Deployed to <a href='http://${loadBalancerIp}'>http://${loadBalancerIp}</a>"
+                    Jenkins.instance.getItem("DeployProject").setDescription(url)
+
                 }
 
                 // trigger job: 'Infrastructure', parameters: [
