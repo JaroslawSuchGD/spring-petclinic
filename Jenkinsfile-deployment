@@ -79,7 +79,8 @@ pipeline {
 
                     def loadBalancerIP = env.LB_IP
                     def url = "🚀 Deployed to <a href='http://${loadBalancerIP}'>http://${loadBalancerIP}</a>"
-                    Jenkins.instance.getItem("DeployProject").setDescription(url)
+                    //Jenkins.instance.getItem("DeployProject").setDescription(url)
+                    currentBuild.description = url
 
                 }
 
