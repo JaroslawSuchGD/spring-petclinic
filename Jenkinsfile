@@ -15,6 +15,8 @@ pipeline {
         stage('Cloning petclinic repository') {
             steps {
                 git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/JaroslawSuchGD/spring-petclinic.git'
+                echo "${env.action}"
+                echo "${env.event}"
             }
         }
         stage('Static code analysis') {
