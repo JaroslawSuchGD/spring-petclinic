@@ -21,6 +21,7 @@ pipeline {
             steps {
                 echo "${env.action}"
                 echo "${env.event}"
+                echo "TEST"
             }
         }
         stage('Static code analysis') {
