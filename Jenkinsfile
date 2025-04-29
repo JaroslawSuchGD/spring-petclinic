@@ -22,7 +22,7 @@ pipeline {
                 echo "${env.action}"
                 echo "${env.event}"
                 echo "VAMoS"
-                echo "VAMOS2321323"
+                echo "VAMOS2321321323"
             }
         }
         stage('Static code analysis') {
