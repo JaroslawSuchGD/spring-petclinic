@@ -21,6 +21,7 @@ pipeline {
             steps {
                 echo "${env.action}"
                 echo "${env.event}"
+                echo "VAMoS"
             }
         }
         stage('Static code analysis') {
