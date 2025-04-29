@@ -21,7 +21,8 @@ pipeline {
             steps {
                 echo "${env.action}"
                 echo "${env.event}"
-                echo "CLOSE"
+                echo "VAMoS"
+                echo "VAMOS2"
             }
         }
         stage('Static code analysis') {
