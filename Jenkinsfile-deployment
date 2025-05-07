@@ -78,12 +78,12 @@ pipeline {
                     build job: 'Infrastructure', parameters: [booleanParam(name: 'Destroy', value: false), string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')), booleanParam(name: 'Update', value: true)]
 
 
-                    def upstreamJobName = 'Infrastructure' // Replace with the actual name
+                    def upstreamJobName = 'Infrastructure'
                     copyArtifacts(
                         projectName: upstreamJobName,
                         selector: lastSuccessful(),
                         filter: 'lb_ip.txt',
-                        target: '.' // Copy the artifact to the current workspace root
+                        target: '.'
                     )
 
                     def loadBalancerIP = readFile file: 'lb_ip.txt'
@@ -93,12 +93,6 @@ pipeline {
                     currentBuild.setDescription(url)
 
                 }
-
-                // trigger job: 'Infrastructure', parameters: [
-                //     string(name: 'APP_VERSION', value: env.VERSION.replace('.', '-')),
-                //     booleanParam(name: 'Update', value: true)
-                // ]
-                // docker run --name petclinic-server -p 80:8080 -e POSTGRES_URL="jdbc:postgresql://${params.DB_IP}:5432/petclinic" -d --network petclinic-network "${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}"
             }
         }
     }
