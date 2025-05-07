@@ -17,13 +17,6 @@ pipeline {
                 git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/JaroslawSuchGD/spring-petclinic.git'
             }
         }
-        stage ('DEBUGGING') {
-            steps {
-                echo "${env.action}"
-                echo "${env.event}"
-                echo "VAMoS"
-            }
-        }
         stage('Static code analysis') {
             steps {
                 sh 'mvn jacoco:report'
