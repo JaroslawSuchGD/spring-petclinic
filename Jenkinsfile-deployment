@@ -42,7 +42,7 @@ pipeline {
                     // sh "git push origin ${env.VERSION}"
                     echo "$version --> new version"
                     sh 'mvn -Dmaven.test.skip=true install'
-                    sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION} ."
+                    sh "docker build --no-cache -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION} ."
                 }
             }
         }
