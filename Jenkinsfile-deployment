@@ -35,7 +35,10 @@ pipeline {
                     def version = sh(script: 'git tag -l | sort -V | tail -n 1', returnStdout: true).trim()
                     env.VERSION = version
 
-
+                    withCredentials([usernamePassword(credentialsId: 'github-creds', passwordVariable: 'git_password', usernameVariable: 'git_username')]) {
+                        sh "git push https://${git_username}:${git_password}@github.com/${git_username}/spring-petclinic ${env.VERSION}"
+                    }
+                    
                     // sh "git push origin ${env.VERSION}"
                     echo "$version --> new version"
                     sh 'mvn -Dmaven.test.skip=true install'
