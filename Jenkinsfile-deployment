@@ -74,8 +74,8 @@ pipeline {
                         if [[ -z \$NETWORK ]]; then
                             docker network create -d bridge petclinic-network
                         fi
-                            gcloud auth configure-docker ${params.REGION}-docker.pkg.dev
-                            docker pull ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}
+                            #gcloud auth configure-docker ${params.REGION}-docker.pkg.dev
+                            #docker pull ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}
                     """
 
                     sh "gcloud compute ssh --zone=us-central1-a petclinic-instance --command='$COMMAND'"
