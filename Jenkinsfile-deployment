@@ -63,6 +63,8 @@ pipeline {
                 script {
                     def COMMAND = """
                         #!/bin/bash
+                        sudo systemctl start docker
+
                         CONTAINER_ID=\$(docker ps --filter ancestor=${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION} --format='{{.ID}}')
                         NETWORK=\$(docker network ls | grep 'petclinic-network')
                         echo "\$CONTAINER_ID --> first"
@@ -76,6 +78,10 @@ pipeline {
                         fi
                             gcloud auth configure-docker ${params.REGION}-docker.pkg.dev
                             docker pull ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION}
+
+                        sudo systemctl stop docker
+                        sync
+                        sleep 5
                     """
 
                     sh "gcloud compute ssh --zone=us-central1-a petclinic-instance --command='$COMMAND'"
