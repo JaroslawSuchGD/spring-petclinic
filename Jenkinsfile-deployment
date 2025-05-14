@@ -16,7 +16,6 @@ pipeline {
                 script {
                     def oldVersion = sh(script: 'git tag -l | sort -V | tail -n 1', returnStdout: true).trim()
                     env.OLD_VERSION = oldVersion
-                    echo "$oldVersion --> old Version"
 
                     sh 'python3 -m venv venv'
                     sh '. /var/lib/jenkins/workspace/Deployment/venv/bin/activate'
@@ -39,9 +38,6 @@ pipeline {
                         sh "git push https://${git_username}:${git_password}@github.com/${git_username}/spring-petclinic ${env.VERSION}"
                     }
                     
-                    // sh "git push origin ${env.VERSION}"
-                    echo "$version --> new version"
-                    //sh 'mvn -Dmaven.test.skip=true install'
                     sh "docker build -t ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.VERSION} ."
                 }
             }
