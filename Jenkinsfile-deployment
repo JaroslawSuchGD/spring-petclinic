@@ -61,11 +61,9 @@ pipeline {
                         #!/bin/bash
                         sudo systemctl start docker
 
-                        CONTAINER_ID=\$(docker ps --filter ancestor=${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION} --format='{{.ID}}')
+                        DOCKER_IMAGE=\$(docker images | grep "${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}")
                         NETWORK=\$(docker network ls | grep 'petclinic-network')
-                        echo "\$CONTAINER_ID --> first"
-                        if [[ -n \$CONTAINER_ID ]]; then
-                            docker stop \$CONTAINER_ID && docker rm \$CONTAINER_ID
+                        if [[ -n \$DOCKER_IMAGE ]]; then
                             docker rmi ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}
                         
                         fi
