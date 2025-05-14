@@ -61,7 +61,7 @@ pipeline {
                         #!/bin/bash
                         sudo systemctl start docker
 
-                        DOCKER_IMAGE=\$(docker images | grep "${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}")
+                        DOCKER_IMAGE=\$(docker images --fileter=reference="${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}")
                         NETWORK=\$(docker network ls | grep 'petclinic-network')
                         if [[ -n \$DOCKER_IMAGE ]]; then
                             docker rmi ${params.REGION}-docker.pkg.dev/${params.PROJECT_ID}/spring-petclinic-registry/petclinic-app:${env.OLD_VERSION}
